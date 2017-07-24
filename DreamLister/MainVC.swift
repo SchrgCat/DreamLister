@@ -29,12 +29,37 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
 
     // MARK: - Table View Data Source
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if let sections = fetchedResultController.sections {
+            return sections.count
+        }
+        
+        return 0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let sections = fetchedResultController.sections {
+            let sectionInfo = sections[section]
+            return sectionInfo.numberOfObjects
+        }
+        
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        let itemCell = tableView.dequeueReusableCell(withIdentifier: ItemTableViewCell.identifier, for: indexPath) as! ItemTableViewCell
+        configureCell(cell: itemCell, indexPath: indexPath)
+        return itemCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    func configureCell(cell: ItemTableViewCell, indexPath: IndexPath) {
+        let item = fetchedResultController.object(at: indexPath)
+        cell.configureCell(item: item)
     }
     
     // MARK: - Methods
@@ -44,10 +69,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         let dateSort = NSSortDescriptor(key: Sort.Date.rawValue, ascending: false)
         fetchRequest.sortDescriptors = [dateSort]
         
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        self.fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
-            try controller.performFetch()
+            try self.fetchedResultController.performFetch()
         } catch {
             let error = error as NSError
             print("\(error)")
@@ -78,8 +103,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         case .update:
             if let indexPath = indexPath {
                 let cell = tableView.cellForRow(at: indexPath) as! ItemTableViewCell
-                
-                // update the cell data
+                configureCell(cell: cell, indexPath: indexPath)
             }
         case .move:
             if let indexPath = indexPath {
