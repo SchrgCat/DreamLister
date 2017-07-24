@@ -27,6 +27,19 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
 
+    
+    // MARK: - VC's Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        // rgenerateTestData()
+        attemptFetch()
+    }
+    
     // MARK: - Table View Data Source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,20 +77,25 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     // MARK: - Methods
     
-    private func attemptFetch() {
-        let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        let dateSort = NSSortDescriptor(key: Sort.Date.rawValue, ascending: false)
-        fetchRequest.sortDescriptors = [dateSort]
+    func generateTestData() {
+        let item1 = Item(context: context)
+        item1.title = "Macbook Pro 15\""
+        item1.price = 4199
+        item1.details = "3.1GHz quad-core processor,16GB RAM, 2TB SSD, Radeon Pro 560. Man That's beast."
         
-        self.fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        let item2 = Item(context: context)
+        item2.title = "Bose Headphones"
+        item2.price = 300
+        item2.details = "But an, its so nice to be able to block out everyone with the noise cancelling "
         
-        do {
-            try self.fetchedResultController.performFetch()
-        } catch {
-            let error = error as NSError
-            print("\(error)")
-        }
+        let item3 = Item(context: context)
+        item3.title = "Tesla Model S"
+        item3.price = 110000
+        item3.details = "Oh man this is a beautiful car. And one day I will own it."
+        
+        ad.saveContext()
     }
+
     
     // MARK: - NSFetchedResultsControllerDelegate
     
@@ -112,6 +130,21 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             if let indexPath = newIndexPath {
                 tableView.insertRows(at: [indexPath], with: .fade)
             }
+        }
+    }
+    
+    private func attemptFetch() {
+        let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
+        let dateSort = NSSortDescriptor(key: Sort.Date.rawValue, ascending: false)
+        fetchRequest.sortDescriptors = [dateSort]
+        
+        self.fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try self.fetchedResultController.performFetch()
+        } catch {
+            let error = error as NSError
+            print("\(error)")
         }
     }
 }
