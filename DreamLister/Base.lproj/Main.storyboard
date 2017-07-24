@@ -216,6 +216,9 @@
                                 <state key="normal" title="Save Item">
                                     <color key="titleColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="savePressed" destination="zzj-kM-4K7" eventType="touchUpInside" id="nHz-ve-CL6"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select store" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q8F-WT-6uF">
                                 <rect key="frame" x="161" y="423" width="92" height="21"/>

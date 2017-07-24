@@ -10,6 +10,7 @@
 		205D7C591F255B960048F7FE /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205D7C581F255B960048F7FE /* ItemTableViewCell.swift */; };
 		20A787F41F262B5700342556 /* ItemDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A787F31F262B5700342556 /* ItemDetailsVC.swift */; };
 		20A787F61F262ECA00342556 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A787F51F262ECA00342556 /* CustomTextField.swift */; };
+		20AF94E21F26B0670033A2E0 /* String+isValidPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AF94E11F26B0670033A2E0 /* String+isValidPrice.swift */; };
 		20B3C80C1F2410A7001DC51C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B3C80B1F2410A6001DC51C /* AppDelegate.swift */; };
 		20B3C80E1F2410A7001DC51C /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B3C80D1F2410A7001DC51C /* MainVC.swift */; };
 		20B3C8111F2410A7001DC51C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20B3C80F1F2410A7001DC51C /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 		205D7C581F255B960048F7FE /* ItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		20A787F31F262B5700342556 /* ItemDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailsVC.swift; sourceTree = "<group>"; };
 		20A787F51F262ECA00342556 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		20AF94E11F26B0670033A2E0 /* String+isValidPrice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+isValidPrice.swift"; sourceTree = "<group>"; };
 		20B3C8081F2410A6001DC51C /* DreamLister.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DreamLister.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20B3C80B1F2410A6001DC51C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		20B3C80D1F2410A7001DC51C /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				20B3C81A1F2410A7001DC51C /* Info.plist */,
 				20E6E4EF1F25FE030066F86D /* Shortcuts.swift */,
 				20E6E4F11F26102A0066F86D /* UITableViewCell+identifier.swift */,
+				20AF94E11F26B0670033A2E0 /* String+isValidPrice.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				20B3C80C1F2410A7001DC51C /* AppDelegate.swift in Sources */,
 				20A787F41F262B5700342556 /* ItemDetailsVC.swift in Sources */,
 				205D7C591F255B960048F7FE /* ItemTableViewCell.swift in Sources */,
+				20AF94E21F26B0670033A2E0 /* String+isValidPrice.swift in Sources */,
 				20B3C8141F2410A7001DC51C /* DreamLister.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

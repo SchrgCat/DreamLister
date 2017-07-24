@@ -138,10 +138,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         let dateSort = NSSortDescriptor(key: Sort.Date.rawValue, ascending: false)
         fetchRequest.sortDescriptors = [dateSort]
         
-        self.fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultController.delegate = self
         
         do {
-            try self.fetchedResultController.performFetch()
+            try fetchedResultController.performFetch()
         } catch {
             print(error)
         }

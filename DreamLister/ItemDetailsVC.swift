@@ -35,20 +35,20 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         storePicker.delegate = self
         storePicker.dataSource = self
         
-        let store = Store(context: context)
-        store.name = "Frys Electronics"
-        let store1 = Store(context: context)
-        store1.name = "Amazon"
-        let store2 = Store(context: context)
-        store2.name = "Tesla Dealership"
-        let store3 = Store(context: context)
-        store3.name = "Best Buy"
-        let store4 = Store(context: context)
-        store4.name = "K Mart"
-        let store5 = Store(context: context)
-        store5.name = "Target"
-        
-        ad.saveContext()
+//        let store = Store(context: context)
+//        store.name = "Frys Electronics"
+//        let store1 = Store(context: context)
+//        store1.name = "Amazon"
+//        let store2 = Store(context: context)
+//        store2.name = "Tesla Dealership"
+//        let store3 = Store(context: context)
+//        store3.name = "Best Buy"
+//        let store4 = Store(context: context)
+//        store4.name = "K Mart"
+//        let store5 = Store(context: context)
+//        store5.name = "Target"
+//        
+//        ad.saveContext()
         
         getStores()
     }
@@ -87,4 +87,27 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         }
     }
     
+    // MARK: - Actions
+    
+    @IBAction func savePressed() {
+        let item = Item(context: context)
+        
+        if let title = titleField.text {
+            item.title = title
+        }
+        
+        if let price = priceField.text, price.isValidPrice {
+            item.price = (price as NSString).doubleValue
+        }
+        
+        if let details = detailsField.text {
+            item.details = details
+        }
+        
+        item.toStore = stores[storePicker.selectedRow(inComponent: 0)]
+        
+        ad.saveContext()
+        
+        navigationController?.popViewController(animated: true)
+    }
 }
