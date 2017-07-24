@@ -143,8 +143,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         do {
             try self.fetchedResultController.performFetch()
         } catch {
-            let error = error as NSError
-            print("\(error)")
+            print(error)
         }
     }
 }

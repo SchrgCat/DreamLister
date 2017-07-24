@@ -156,7 +156,7 @@
                         <viewControllerLayoutGuide type="top" id="0rd-f0-U9l"/>
                         <viewControllerLayoutGuide type="bottom" id="OhE-gT-Aag"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LqZ-KX-ume" customClass="ItemTableViewCell" customModule="DreamLister" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="LqZ-KX-ume">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -260,6 +260,12 @@
                             <color key="tintColor" red="1" green="0.34509803919999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="detailsField" destination="Q0J-r7-yIa" id="Pxi-DV-Iii"/>
+                        <outlet property="priceField" destination="PMg-dz-n2p" id="jhE-fH-mgd"/>
+                        <outlet property="storePicker" destination="Tyt-XG-1aN" id="VYg-b5-9jK"/>
+                        <outlet property="titleField" destination="1yn-sy-glj" id="gPK-La-E2n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lOK-9V-aUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
