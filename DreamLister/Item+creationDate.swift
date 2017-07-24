@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Item+creationDate.swift
 //  DreamLister
 //
 //  Created by Mikołaj Skawiński on 23.07.2017.
@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import CoreData
+
+extension Item {
+    
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        
+        created = NSDate()
+    }
+    
+}
