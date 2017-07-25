@@ -261,6 +261,9 @@
                     <navigationItem key="navigationItem" title="Add/Edit" id="gRm-yn-Ufi">
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="UI2-kp-AUV">
                             <color key="tintColor" red="1" green="0.34509803919999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="deletePressed:" destination="zzj-kM-4K7" id="Xp6-0A-h0q"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

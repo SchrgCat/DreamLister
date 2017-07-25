@@ -131,4 +131,15 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         
         navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func deletePressed(_ sender: UIBarButtonItem) {
+        
+        if itemToEdit != nil {
+            context.delete(itemToEdit!)
+            ad.saveContext()
+        }
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
