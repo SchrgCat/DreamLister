@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - Outlets
     
@@ -17,11 +17,13 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
     @IBOutlet weak var titleField: CustomTextField!
     @IBOutlet weak var priceField: CustomTextField!
     @IBOutlet weak var detailsField: CustomTextField!
+    @IBOutlet weak var thumbImg: UIImageView!
     
     // MItemTableViewCellARK: - Properties
     
     var stores = [Store]()
     var itemToEdit: Item?
+    var imagePicker = UIImagePickerController()
     
     // MARK: - VC's Life Cycle
     
@@ -35,6 +37,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         
         storePicker.delegate = self
         storePicker.dataSource = self
+        imagePicker.delegate = self
         
 //        let store = Store(context: context)
 //        store.name = "Frys Electronics"
@@ -79,6 +82,16 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         
     }
     
+    // MARK: - Image Picker Controller
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            thumbImg.image = img
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Methods
     
     func getStores() {
@@ -97,6 +110,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         titleField.text = item.title
         priceField.text = "\(item.price)"
         detailsField.text = item.details
+        thumbImg.image = item.toImage?.image as? UIImage
         
         if let store = item.toStore {
             if let index = stores.index(of: store) {
@@ -109,6 +123,11 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
     
     @IBAction func savePressed() {
         let item = itemToEdit != nil ? itemToEdit! : Item(context: context)
+        
+        let picture = Image(context: context)
+        picture.image = thumbImg.image
+        
+        item.toImage = picture
         
         if let title = titleField.text {
             item.title = title
@@ -142,4 +161,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func changeImage() {
+        present(imagePicker, animated: true, completion: nil)
+    }
 }
