@@ -11,11 +11,14 @@ import CoreData
 
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
     
+    // MARK: - Enumeration
+    
     private enum SortType: Int, CustomStringConvertible {
         
         case Date = 0
         case Price
         case Title
+        case Category
         
         var description: String {
             switch  self {
@@ -25,7 +28,8 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
                 return "price"
             case .Title:
                 return "title"
-                
+            case .Category:
+                return "toItemType"
             }
         }
         
@@ -44,7 +48,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
                 return #selector(NSDate.compare(_:))
             case .Price:
                 return #selector(NSNumber.compare(_:))
-            case .Title:
+            case .Title, .Category:
                 return #selector(NSString.caseInsensitiveCompare(_:))
                 
             }
@@ -69,7 +73,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         tableView.delegate = self
         tableView.dataSource = self
         
-        // rgenerateTestData()
+        // generateTestData()
         attemptFetch()
     }
     
@@ -134,6 +138,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         item3.title = "Tesla Model S"
         item3.price = 110000
         item3.details = "Oh man this is a beautiful car. And one day I will own it."
+        
         
         ad.saveContext()
     }

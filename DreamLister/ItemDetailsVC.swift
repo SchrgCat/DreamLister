@@ -11,6 +11,19 @@ import CoreData
 
 class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    // MARK: - Enumerations
+    
+    private enum ItemTypeEnum: String {
+        case Cars
+        case Electronics
+        case Books
+        case Other
+        
+        
+        static var count = 4
+    }
+    
+    
     // MARK: - Outlets
     
     @IBOutlet weak var storePicker: UIPickerView!
@@ -18,10 +31,12 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
     @IBOutlet weak var priceField: CustomTextField!
     @IBOutlet weak var detailsField: CustomTextField!
     @IBOutlet weak var thumbImg: UIImageView!
+    @IBOutlet weak var typeSegmentedControl: UISegmentedControl!
     
     // MItemTableViewCellARK: - Properties
     
     var stores = [Store]()
+    var types = [ItemType]()
     var itemToEdit: Item?
     var imagePicker = UIImagePickerController()
     
@@ -39,22 +54,10 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         storePicker.dataSource = self
         imagePicker.delegate = self
         
-//        let store = Store(context: context)
-//        store.name = "Frys Electronics"
-//        let store1 = Store(context: context)
-//        store1.name = "Amazon"
-//        let store2 = Store(context: context)
-//        store2.name = "Tesla Dealership"
-//        let store3 = Store(context: context)
-//        store3.name = "Best Buy"
-//        let store4 = Store(context: context)
-//        store4.name = "K Mart"
-//        let store5 = Store(context: context)
-//        store5.name = "Target"
-//        
-//        ad.saveContext()
+
         
         getStores()
+        getTypes()
         
         if itemToEdit != nil {
             loadItemData()
@@ -98,11 +101,56 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         let fetchRequest: NSFetchRequest<Store> = Store.fetchRequest()
         
         do {
-            self.stores = try context.fetch(fetchRequest)
-            self.storePicker.reloadAllComponents()
+            stores = try context.fetch(fetchRequest)
+            if stores.isEmpty {
+                let store = Store(context: context)
+                store.name = "Frys Electronics"
+                let store1 = Store(context: context)
+                store1.name = "Amazon"
+                let store2 = Store(context: context)
+                store2.name = "Tesla Dealership"
+                let store3 = Store(context: context)
+                store3.name = "Best Buy"
+                let store4 = Store(context: context)
+                store4.name = "K Mart"
+                let store5 = Store(context: context)
+                store5.name = "Target"
+                
+                ad.saveContext()
+                self.stores += [store, store1, store2, store3, store4, store5]
+            }
+            
+            storePicker.reloadAllComponents()
         } catch {
             print(error)
         }
+    }
+    
+    func getTypes() {
+        let fetchRequest: NSFetchRequest<ItemType> = ItemType.fetchRequest()
+        
+        do {
+            self.types = try context.fetch(fetchRequest)
+            if self.types.isEmpty {
+                let type1 = ItemType(context: context)
+                type1.type = "Cars"
+                let type2 = ItemType(context: context)
+                type2.type = "Books"
+                let type3 = ItemType(context: context)
+                type3.type = "Electronics"
+                let type4 = ItemType(context: context)
+                type4.type = "Other"
+                
+                ad.saveContext()
+                self.types += [type1, type2, type3, type4]
+            }
+            for i in 0..<ItemTypeEnum.count {
+                typeSegmentedControl.setTitle(types[i].type, forSegmentAt: i)
+            }
+        } catch {
+            print(error)
+        }
+
     }
     
     func loadItemData() {
@@ -117,6 +165,12 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
                 storePicker.selectRow(index, inComponent: 0, animated: true)
             }
         }
+        
+        if let type = item.toItemType?.type {
+            if let index = types.index(where: {$0.type == type}) {
+                typeSegmentedControl.selectedSegmentIndex = index
+            }
+        }
     }
     
     // MARK: - Actions
@@ -126,8 +180,9 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         
         let picture = Image(context: context)
         picture.image = thumbImg.image
-        
         item.toImage = picture
+        
+        item.toItemType = types[typeSegmentedControl.selectedSegmentIndex]
         
         if let title = titleField.text {
             item.title = title
