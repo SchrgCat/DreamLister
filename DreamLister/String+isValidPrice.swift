@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     public var isValidPrice: Bool {
-        let priceRegex = "[0-9]*"
+        let priceRegex = "[0-9.]*"
         let priceTest = NSPredicate(format: "SELF MATCHES %@", priceRegex)
         return priceTest.evaluate(with: self)
     }

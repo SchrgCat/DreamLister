@@ -75,6 +75,15 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         cell.configureCell(item: item)
     }
     
+    // MARK: - Table View Delegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let objs = fetchedResultController.fetchedObjects, !objs.isEmpty {
+            let item = objs[indexPath.row]
+            performSegue(withIdentifier: "ItemDetailsVC", sender: item)
+        }
+    }
+    
     // MARK: - Methods
     
     func generateTestData() {
@@ -95,7 +104,16 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         ad.saveContext()
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ItemDetailsVC" {
+            if let destination = segue.destination as? ItemDetailsVC {
+                if let item = sender as? Item {
+                    destination.itemToEdit = item
+                }
+            }
+        }
+    }
     
     // MARK: - NSFetchedResultsControllerDelegate
     

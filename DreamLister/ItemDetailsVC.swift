@@ -21,6 +21,7 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
     // MItemTableViewCellARK: - Properties
     
     var stores = [Store]()
+    var itemToEdit: Item?
     
     // MARK: - VC's Life Cycle
     
@@ -51,6 +52,10 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
 //        ad.saveContext()
         
         getStores()
+        
+        if itemToEdit != nil {
+            loadItemData()
+        }
     }
     
     // MARK: - Picker View Data Source
@@ -87,10 +92,23 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         }
     }
     
+    func loadItemData() {
+        let item = itemToEdit!
+        titleField.text = item.title
+        priceField.text = "\(item.price)"
+        detailsField.text = item.details
+        
+        if let store = item.toStore {
+            if let index = stores.index(of: store) {
+                storePicker.selectRow(index, inComponent: 0, animated: true)
+            }
+        }
+    }
+    
     // MARK: - Actions
     
     @IBAction func savePressed() {
-        let item = Item(context: context)
+        let item = itemToEdit != nil ? itemToEdit! : Item(context: context)
         
         if let title = titleField.text {
             item.title = title
@@ -98,6 +116,9 @@ class ItemDetailsVC: UIViewController, UIPickerViewDataSource, UIPickerViewDeleg
         
         if let price = priceField.text, price.isValidPrice {
             item.price = (price as NSString).doubleValue
+        } else {
+            priceField.layer.borderWidth = 1.0
+            priceField.layer.borderColor = UIColor.red.cgColor
         }
         
         if let details = detailsField.text {
