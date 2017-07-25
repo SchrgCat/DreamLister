@@ -11,12 +11,45 @@ import CoreData
 
 class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
     
-    private enum Sort: String {
-        case Date = "created"
-        case Price = "price"
-        case Title = "title"
+    private enum SortType: Int, CustomStringConvertible {
+        
+        case Date = 0
+        case Price
+        case Title
+        
+        var description: String {
+            switch  self {
+            case .Date:
+                return "created"
+            case .Price:
+                return "price"
+            case .Title:
+                return "title"
+                
+            }
+        }
+        
+        var ascending: Bool {
+            switch  self {
+            case .Date:
+                return false
+            default:
+                return true
+            }
+        }
+        
+        var selector: Selector {
+            switch self {
+            case .Date:
+                return #selector(NSDate.compare(_:))
+            case .Price:
+                return #selector(NSNumber.compare(_:))
+            case .Title:
+                return #selector(NSString.caseInsensitiveCompare(_:))
+                
+            }
+        }
     }
-    
     
     // MARK: - Properties
     
@@ -153,8 +186,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     private func attemptFetch() {
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        let dateSort = NSSortDescriptor(key: Sort.Date.rawValue, ascending: false)
-        fetchRequest.sortDescriptors = [dateSort]
+        
+        let sortType = SortType(rawValue: segmentedControl.selectedSegmentIndex)!
+        let sort = NSSortDescriptor(key: sortType.description, ascending: sortType.ascending, selector: sortType.selector)
+        
+        fetchRequest.sortDescriptors = [sort]
         
         fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultController.delegate = self
@@ -165,5 +201,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             print(error)
         }
     }
+    
+    // MARK: - Actions 
+    
+    @IBAction func segmentChange() {
+        attemptFetch()
+        tableView.reloadData()
+    }
+    
 }
 
